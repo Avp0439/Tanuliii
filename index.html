@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Editorial</title>
+  <meta
+    name="description"
+    content="A refined, cinematic birthday webpage with editorial typography, warm highlights, and gentle motion."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  >
+  <style>
+    :root {
+      --text: #f5efe4;
+      --muted: rgba(245, 239, 228, 0.72);
+      --soft: rgba(245, 239, 228, 0.48);
+      --line: rgba(245, 239, 228, 0.12);
+      --gold: #d3b07d;
+      --ivory: #fff8ef;
+      --panel: rgba(255, 250, 243, 0.03);
+      --shadow: 0 34px 80px rgba(0, 0, 0, 0.32);
+      --radius: 28px;
+      --container: 1120px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+      background: none !important;
+      line-height: 1.7;
+      overflow-x: hidden;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      z-index: -3;
+      background: radial-gradient(circle at center, #140000, #050000);
+    }
+
+    body::after {
+      inset: -50%;
+      z-index: -2;
+      filter: blur(140px);
+      background:
+        radial-gradient(circle at 25% 30%, #4a0000, transparent 50%),
+        radial-gradient(circle at 75% 40%, #8b0025, transparent 50%),
+        radial-gradient(circle at 50% 75%, #ff6b81, transparent 40%);
+      animation: flow 18s ease-in-out infinite alternate;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    button,
+    a {
+      color: inherit;
+      font: inherit;
+    }
+
+    button {
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .page {
+      position: relative;
+      isolation: isolate;
+    }
+
+    #cursorLight {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.45), transparent 60%);
+      filter: blur(80px);
+      mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    #ambientLight {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 60%);
+      filter: blur(60px);
+      mix-blend-mode: screen;
+      animation: ambient-drift 16s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      overflow: clip;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-flares {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-flares span {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 233, 194, 0.26), transparent 72%);
+      filter: blur(10px);
+      mix-blend-mode: screen;
+      animation: shimmer 14s ease-in-out infinite;
+    }
+
+    .hero-flares .flare-1 {
+      top: 15%;
+      right: 13%;
+      width: 170px;
+      height: 170px;
+    }
+
+    .hero-flares .flare-2 {
+      right: 8%;
+      top: 40%;
+      width: 70px;
+      height: 70px;
+      animation-delay: -4s;
+    }
+
+    .hero-flares .flare-3 {
+      left: 11%;
+      bottom: 18%;
+      width: 110px;
+      height: 110px;
+      animation-delay: -8s;
+    }
+
+    .hero-inner,
+    .section-inner {
+      width: min(100% - 2.5rem, var(--container));
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-inner {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: clamp(5rem, 10vw, 7rem) 0;
+    }
+
+    .hero-layout {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-frame {
+      width: min(100%, 58rem);
+      padding: clamp(2.8rem, 7vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-frame::before,
+    .hero-frame::after,
+    .message-shell::before,
+    .message-shell::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(245, 239, 228, 0), rgba(245, 239, 228, 0.32), rgba(245, 239, 228, 0));
+    }
+
+    .hero-frame::before,
+    .hero-frame::after {
+      width: min(100%, 34rem);
+    }
+
+    .hero-frame::before {
+      top: 0;
+    }
+
+    .hero-frame::after {
+      bottom: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 1.1rem;
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+    }
+
+    .hero-title,
+    .section-title,
+    .message-copy,
+    .closing-line,
+    .friend-name,
+    .note-title {
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-title {
+      margin: 0 auto;
+      width: 100%;
+      font-size: clamp(3.6rem, 12vw, 8.4rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      text-wrap: balance;
+      text-align: center;
+    }
+
+    .hero-name {
+      margin: 1.35rem auto 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.5rem, 4vw, 2.7rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      text-align: center;
+    }
+
+    .hero-copy {
+      margin: 1.6rem auto 0;
+      max-width: 35rem;
+      color: var(--muted);
+      font-size: clamp(0.98rem, 2vw, 1.08rem);
+      text-align: center;
+    }
+
+    .hero-note {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.95rem;
+      margin-top: 2rem;
+      color: var(--soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .hero-note::before,
+    .hero-note::after {
+      content: "";
+      width: clamp(2.8rem, 9vw, 5rem);
+      height: 1px;
+      background: rgba(245, 239, 228, 0.22);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: 1.8rem;
+      transform: translateX(-50%);
+      display: inline-grid;
+      justify-items: center;
+      gap: 0.8rem;
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 0.68rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+    }
+
+    .scroll-cue::before {
+      content: "";
+      width: 1px;
+      height: 4.2rem;
+      background: linear-gradient(180deg, rgba(245, 239, 228, 0), rgba(245, 239, 228, 0.44));
+    }
+
+    .scroll-cue::after {
+      content: "";
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 18px rgba(211, 176, 125, 0.42);
+      animation: cue 2.8s var(--ease) infinite;
+    }
+
+    section {
+      position: relative;
+      padding: clamp(6rem, 14vw, 9.5rem) 0;
+    }
+
+    .section-head {
+      max-width: 42rem;
+      margin: 0 auto clamp(3rem, 8vw, 4.5rem);
+      text-align: center;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 4.6rem);
+      line-height: 1;
+      text-wrap: balance;
+    }
+
+    .section-copy {
+      margin: 0 auto;
+      max-width: 36rem;
+      color: var(--muted);
+    }
+
+    .gallery,
+    .message,
+    .friends {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .gallery-layout {
+      display: grid;
+      gap: 1.15rem;
+    }
+
+    .memory-card,
+    .friend-card,
+    .note-dialog {
+      position: relative;
+      background: var(--panel);
+      border: 1px solid rgba(245, 239, 228, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .memory-card {
+      min-height: 22rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .memory-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(7, 7, 7, 0.1) 10%, rgba(7, 7, 7, 0.55) 100%),
+        radial-gradient(circle at 78% 18%, rgba(255, 243, 221, 0.1), transparent 22%);
+      z-index: 1;
+    }
+
+    .memory-card::after {
+      content: "";
+      position: absolute;
+      inset: 1.1rem;
+      border-radius: calc(var(--radius) - 12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      opacity: 0.48;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .memory-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.88) brightness(0.88) contrast(0.98);
+      transform: scale(1.02);
+      transition: transform 1.8s var(--ease), filter 1.8s var(--ease);
+    }
+
+    .memory-card:hover img,
+    .memory-card:focus-within img {
+      transform: scale(1.05);
+      filter: saturate(0.94) brightness(0.92) contrast(1);
+    }
+
+    .memory-card--feature {
+      min-height: clamp(24rem, 56vw, 37rem);
+    }
+
+    .memory-card--closing {
+      min-height: clamp(20rem, 42vw, 28rem);
+    }
+
+    .memory-caption {
+      position: absolute;
+      inset: auto 0 0;
+      z-index: 3;
+      padding: 1.5rem 1.5rem 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .memory-index,
+    .friend-label,
+    .friend-open {
+      color: rgba(245, 239, 228, 0.64);
+      font-size: 0.72rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+    }
+
+    .memory-title {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      font-weight: 600;
+      line-height: 1.06;
+      letter-spacing: 0.03em;
+    }
+
+    .memory-text {
+      margin: 0;
+      max-width: 26rem;
+      color: rgba(245, 239, 228, 0.76);
+      font-size: 0.95rem;
+    }
+
+    .message-shell {
+      position: relative;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: clamp(2.4rem, 6vw, 4rem) clamp(1rem, 4vw, 2.6rem);
+      text-align: center;
+    }
+
+    .message-shell::before,
+    .message-shell::after {
+      width: min(100%, 18rem);
+    }
+
+    .message-shell::before {
+      top: 0;
+    }
+
+    .message-shell::after {
+      bottom: 0;
+    }
+
+    .message-copy {
+      margin: 0 auto;
+      max-width: 44rem;
+      font-size: clamp(1.85rem, 4.6vw, 3.25rem);
+      line-height: 1.34;
+      text-wrap: balance;
+    }
+
+    .message-copy--long {
+      max-width: 52rem;
+      font-size: clamp(1rem, 2.1vw, 1.35rem);
+      line-height: 1.9;
+      text-align: left;
+      text-wrap: pretty;
+    }
+
+    .message-note {
+      margin: 1.5rem auto 0;
+      max-width: 36rem;
+      color: var(--muted);
+    }
+
+    .friends-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .friend-card {
+      width: 100%;
+      padding: 1.5rem 1.35rem;
+      border-radius: 24px;
+      text-align: left;
+      transition:
+        transform 0.9s var(--ease),
+        border-color 0.9s var(--ease),
+        background-color 0.9s var(--ease),
+        box-shadow 0.9s var(--ease);
+    }
+
+    .friend-card:hover,
+    .friend-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(211, 176, 125, 0.28);
+      background: rgba(255, 250, 243, 0.05);
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.18);
+      outline: none;
+    }
+
+    .friend-name {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: clamp(1.45rem, 2vw, 1.8rem);
+      line-height: 1.05;
+    }
+
+    .friend-tease {
+      margin: 0.9rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 18rem;
+    }
+
+    .friend-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.35rem;
+      color: var(--soft);
+    }
+
+    .friend-open::before {
+      content: "";
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 10px rgba(211, 176, 125, 0.28);
+    }
+
+    .note-modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      background: rgba(8, 8, 8, 0.72);
+      backdrop-filter: blur(16px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.8s var(--ease), visibility 0.8s var(--ease);
+      z-index: 30;
+    }
+
+    .note-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .note-dialog {
+      width: min(100%, 34rem);
+      max-height: min(80vh, 44rem);
+      padding: 2rem 1.6rem 1.75rem;
+      border-radius: 28px;
+      overflow-y: auto;
+      transform: translateY(18px);
+      transition: transform 0.9s var(--ease);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(211, 176, 125, 0.5) rgba(255, 255, 255, 0.04);
+    }
+
+    .note-modal.is-open .note-dialog {
+      transform: translateY(0);
+    }
+
+    .note-dialog::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .note-dialog::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 999px;
+    }
+
+    .note-dialog::-webkit-scrollbar-thumb {
+      background: rgba(211, 176, 125, 0.5);
+      border-radius: 999px;
+    }
+
+    .note-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: inline-grid;
+      place-items: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid rgba(245, 239, 228, 0.14);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .note-title {
+      margin: 0.85rem 0 0;
+      font-size: clamp(2rem, 5vw, 2.7rem);
+      line-height: 1.02;
+    }
+
+    .note-text {
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .finale {
+      min-height: 72svh;
+      display: flex;
+      align-items: center;
+    }
+
+    .finale-wrap {
+      width: min(100% - 2.5rem, 48rem);
+      margin: 0 auto;
+      text-align: center;
+      display: grid;
+      gap: 1.35rem;
+    }
+
+    .closing-line {
+      margin: 0;
+      font-size: clamp(2.6rem, 7vw, 5.4rem);
+      line-height: 0.98;
+      text-wrap: balance;
+    }
+
+    .closing-note {
+      margin: 0 auto;
+      max-width: 30rem;
+      color: var(--muted);
+    }
+
+    .back-button {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: 0.45rem;
+      padding: 0.95rem 1.35rem;
+      border-radius: 999px;
+      border: 1px solid rgba(211, 176, 125, 0.24);
+      color: var(--text);
+      font-size: 0.76rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      transition: transform 1s var(--ease), border-color 1s var(--ease), background-color 1s var(--ease);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 1.35s var(--ease), transform 1.35s var(--ease);
+      transition-delay: var(--delay, 0s);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 760px) {
+      .hero-inner,
+      .section-inner {
+        width: min(100% - 4rem, var(--container));
+      }
+
+      .gallery-layout,
+      .friends-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 1.4rem;
+      }
+
+      .memory-card--feature,
+      .memory-card--closing {
+        grid-column: 1 / -1;
+      }
+
+      .memory-card--portrait-left {
+        grid-column: 1 / span 6;
+        min-height: 33rem;
+      }
+
+      .memory-card--portrait-right {
+        grid-column: 7 / span 6;
+        min-height: 33rem;
+      }
+
+      .friend-card:nth-child(1),
+      .friend-card:nth-child(2),
+      .friend-card:nth-child(3) {
+        grid-column: span 4;
+      }
+
+      .friend-card:nth-child(4) {
+        grid-column: 3 / span 4;
+      }
+
+      .friend-card:nth-child(5) {
+        grid-column: 7 / span 4;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .hero-inner,
+      .section-inner {
+        width: min(100% - 7rem, var(--container));
+      }
+
+      .hero-frame {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes shimmer {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.22;
+      }
+      50% {
+        transform: translate3d(6px, -8px, 0) scale(1.06);
+        opacity: 0.4;
+      }
+    }
+
+    @keyframes flow {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+      100% {
+        transform: rotate(220deg) scale(1.3);
+      }
+    }
+
+    @keyframes ambient-drift {
+      0% {
+        transform: translate(80vw, 80vh);
+      }
+      100% {
+        transform: translate(10vw, 10vh);
+      }
+    }
+
+    @keyframes cue {
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.84;
+      }
+      50% {
+        transform: translateY(7px);
+        opacity: 1;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="cursorLight" aria-hidden="true"></div>
+  <div id="ambientLight" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="hero" id="top">
+      <div class="hero-flares" aria-hidden="true">
+        <span class="flare-1"></span>
+        <span class="flare-2"></span>
+        <span class="flare-3"></span>
+      </div>
+
+      <div class="hero-inner">
+        <div class="hero-layout">
+          <div class="hero-frame">
+            <p class="eyebrow reveal">Birthday Edition</p>
+            <h1 class="hero-title reveal" style="--delay: 0.08s;">
+              HAPPY <br> BIRTHDAYY!
+            </h1>
+            <p class="hero-name reveal" style="--delay: 0.16s;">TANULIII&#128151;</p>
+            <p class="hero-copy reveal" style="--delay: 0.24s;">
+              For one whose presence feels like a soft light illuminating life and making it more fun
+              to be in
+            </p>
+            <p class="hero-note reveal" style="--delay: 0.32s;">A portrait in warmth, grace, and becoming</p>
+          </div>
+        </div>
+      </div>
+
+      <a class="scroll-cue" href="#gallery" aria-label="Scroll to the memory gallery">Scroll</a>
+    </header>
+
+    <main>
+      <section class="gallery" id="gallery">
+        <div class="section-inner">
+          <div class="section-head">
+            <p class="eyebrow reveal">Memory Gallery</p>
+            <h2 class="section-title reveal" style="--delay: 0.08s;">Few beautiful moments &#128524;</h2>
+            <p class="section-copy reveal" style="--delay: 0.16s;">every memory we lived together</p>
+          </div>
+
+          <div class="gallery-layout">
+            <article class="memory-card memory-card--feature reveal">
+              <img src="./frame-01.png" alt="Illustrated portrait memory" loading="lazy">
+              <div class="memory-caption">
+                <span class="memory-index">Frame 01</span>
+                <h3 class="memory-title">Where it Began</h3>
+                <p class="memory-text">The kind of moment that says everything without needing to try.</p>
+              </div>
+            </article>
+
+            <article class="memory-card memory-card--portrait-left reveal" style="--delay: 0.08s;">
+              <img src="./frame-02.png" alt="Shared memory portrait" loading="lazy">
+              <div class="memory-caption">
+                <span class="memory-index">Frame 02</span>
+                <h3 class="memory-title">Quiet Grace</h3>
+                <p class="memory-text">The unsaid words convey feelings through eyes</p>
+              </div>
+            </article>
+
+            <article class="memory-card memory-card--portrait-right reveal" style="--delay: 0.14s;">
+              <img src="./frame-03.png" alt="Festive shared memory portrait" loading="lazy">
+              <div class="memory-caption">
+                <span class="memory-index">Frame 03</span>
+                <h3 class="memory-title">The In Between</h3>
+                <p class="memory-text">Both knowing but still the uncertainty</p>
+              </div>
+            </article>
+
+            <article class="memory-card memory-card--closing reveal" style="--delay: 0.2s;">
+              <img src="./frame-04.png" alt="Golden hour shared memory portrait" loading="lazy">
+              <div class="memory-caption">
+                <span class="memory-index">Frame 04</span>
+                <h3 class="memory-title">The Afterglow</h3>
+                <p class="memory-text">A feeling that lingers long after the music fades and the lights grow dim.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="message" id="message">
+        <div class="section-inner">
+          <div class="message-shell">
+            <p class="eyebrow reveal">A Note For You</p>
+            <div class="message-copy message-copy--long reveal" style="--delay: 0.08s;">
+              Keeping rest aside HAPPIESTTT BIRTHDAYYYY TANULIII my BUNNIEE my BONBON my PILUU my Rashuuudii&#128151;&#128150;&#128150;<br><br>
+              ekk time tha jab tere liyee ek nickname sochte sochte jaan nikal gayii thii &#128514; aur ajj dekho madamji ke liyee itne saree nicknames ho gyee heyy...&#128151;&#128151;<br><br>
+              tohhh ass i knowww apkooo toh koi intrest heyy nahi bday celeb karnee mee toh sochaa isi ko hum apnaa special wala day bana le apkaa bday mere liyee meraa apkee liyee basically ek dusroo kee dinn jisse jab koi ek low ho dusra haak se use sambhal sake<br><br>
+              at this point mene discuss bhi kar lia hoga ye tujhsee kyuki ache surprise pet me tiktee kaha heyy (tujhsee hi sikhaa huu hass mtt jyada&#128540;&#128523;)<br><br>
+              tohhhh thiss sitee iss humarra dinn apkaaa din bestestttt banaa apnaa memory recap and kuch special heyy agee scroll karogii tb pata chalegaa hiii &#129392;&#129392;&#129392;<br><br>
+              Thiss journey with uh may not have been easy one or always poetic one but REAL one haa har barr jindagi me kuch cinematic ho jarurari toh nahiii.. aur hotaa bhii nahi... but jitna time tere sath spend kia hey sara worth it tha the upss the lowss . lowss me bohot kuch sikhnee milaa and Upss me toh bas happy moments and voh unreal wala feell hayeee&#128540;&#128540;...<br><br>
+              aur aurr ummmm sb kuch yahi nahi bolna chataa &#128517;letters ke liyee kuch bachana chata huu buttt koinaa Fast reader hey aur har ek chez do do bar padhne me tujhe toh koi shikayat nahi hone walii &#129392;&#128514;&#128514;<br><br>
+              The lovee u have conveyed voh Genuity purity kyaa boluuu i dont have word for it cause never experienced it form any other person soo cant even name itt i will call itt &quot; Tanii Lovee &#129782;&quot;. everytime we fight we make our bond stronger . Our relationship is like &quot; Kintsugi &quot; its an art form where u repair the utensil with gold filling and it looks more beautifull than before... we fight we repaired and we don't repeat it again.. we listen we understand each other and learn more abt each other everytime... and apli relationship will always be supported by this KADHI TU.. KADHII ME..&#128524;(thiss dosentt mean roj jhagdegii brkaa &#128514;!!)<br><br>
+              Andd yeaa now we are done doing the same mistakes now we are fituss&#128514;.. No more insecurities no more 3rd koiii and iss bdayy all i want for u is mental peace. LET IT GO.. now we have to focus on ourselfs first and uss thiss only will be my wish !&#128524;<br><br>
+              chaloo jyada lamba para ho gaya ig &#128517;<br>
+              buttt... THANKUHH im gratefull to uh that u never left mee u also stayed by my side alwaysss no matter what thats why i imagine u as my wifeee the love the motherliness the care the empathy the EVERTHING you aree LOVEEE YOUUUUU&#128151;&#128151;&#128151;&#128151;&#128151;<br><br>
+              i will always manifeistt &quot;US MARRING , US GETTING SUCCESFULL IN IFE , HAVING GREAT FAMILY TOGETHER , GETTING RICH TOGTHER FROM THE SMALLEST STEP....&quot; &#129782; &#9992;&#128104;&#8205;&#9992;&#65039;&#128178;&#128104;&#8205;&#128105;&#8205;&#128103;&#8205;&#128102;<br><br>
+              lovee uhhhh soooo soo muchhh baalll<br>
+              (im not writing person as uk toh dont mind haa baki gifts are worth itt &#128513;)<br>
+              &#128151;&#128151;&#127872;&#127872;&#128147;
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="friends" id="friends">
+        <div class="section-inner">
+          <div class="section-head">
+            <p class="eyebrow reveal">From OUR people</p>
+            <h2 class="section-title reveal" style="--delay: 0.08s;">Little notes, kept close.</h2>
+            <p class="section-copy reveal" style="--delay: 0.16s;">Tap a card to open a short message.</p>
+          </div>
+
+          <div class="friends-grid">
+            <button class="friend-card reveal" type="button" data-friend="Yashii" data-note="You deserve the kind of happiness that feels steady, beautiful, and completely yours.">
+              <span class="friend-label">Note 01</span>
+              <span class="friend-name">Yashii</span>
+              <p class="friend-tease">A small note waiting to be opened.</p>
+              <span class="friend-open">Open Note</span>
+            </button>
+
+            <button class="friend-card reveal" type="button" style="--delay: 0.06s;" data-friend="Nakshatra" data-note="Happy birthday tanishka You know how much I love you and how special you have been my life to me. For others it might be shocking but am not surprised that after 3 friend groups, 2 heartbreaks, tons of festivals , and memories and trauma dumping in infinity we are still together . And ik that just like today, no matter where we are in life we will always be there for each other, I will always be there for you no matter what . You can never know how fuckiing proud I am of you for the person you have become after everything. You might not feel it but somewhere you keep inspiring me and I hope to do the same for you. No matter how many friends we make, you will always be special, I mean pehle Pyaar hai tu mera 😭😭🫶🏻🫶🏻. I really really hope all your wishes come true , I love you soo soo muchh 🫶🏻💗🫶🏻✨🤧🤧🤧">
+              <span class="friend-label">Note 02</span>
+              <span class="friend-name">Nakshatra</span>
+              <p class="friend-tease">A few quiet words from someone who cares.</p>
+              <span class="friend-open">Open Note</span>
+            </button>
+
+            <button class="friend-card reveal" type="button" style="--delay: 0.12s;" data-friend="Anshh" data-note="You make everything around you feel a little warmer, a little brighter, and a lot more meaningful.">
+              <span class="friend-label">Note 03</span>
+              <span class="friend-name">Anshh</span>
+              <p class="friend-tease">A note full of warmth.</p>
+              <span class="friend-open">Open Note</span>
+            </button>
+
+            <button class="friend-card reveal" type="button" style="--delay: 0.18s;" data-friend="Akshara" data-note="Haaaaaaaaaaaappppiiesssssstttttttt birthdayyyyyyyyyyyyyyyyy dearrrrrrrrestttttttt taaaannnniiiiiii..........!!!!!!!!!!!!!!!!!!!!!🥳🥳🎉🎉🎉💋💋💋💋😘😘😘 I loveee uhhhh soooooo muchhhhh taniiiiii !!!!💋💋😘😘😘 I'm sooo happy for uhhh because iss timee finally tuu khushh hai jijuu joo mil gye hai 🤭😚 apnn yrrrr kithniiiiiiiiiiiii masti kiyaa kartee thee class mai bhaiii abhii bhi class mai kithnii baatt terii vishuu ki andd swara kii yaadd aatii 🤧🤧I miss those days...!!! Apnnn gaana gaya karte the ovlsyy besuri awaj mai😅😅buttt mazaa kithnaa aata thaa andd vo khan mam bhai kya chipakti thi teko🤣🤣 bhaii class ki jithni baate yaad kare uthni kam hai apn sab ne milke ithne acchi acchi memories jo banai hai andddddd !!!! Sabsee jyadaaa special wli memory toh Ganesh ji ke time ki hai !!!!😚😚bhaii kithni maza ki ithi apn nee sath mai mil ke sab banaya tha decoration kiya thaa !!!!😚😚 it was all worth it...!!!! Ahh !!! Andddd abhii ke current time mai specially tumhare relationship ko Nazarr naa lagee !!!!🧿🧿🧿🧿bahott logoo ki nazar hai bhai tum logo pr dhyan se rehnaa andd kabhi jhagda mat karnaa !!! Kaisaa time aa gyaa beti ko maa ko bolna padhra kaise karna kasie nai 🤣🤣 urrr the mosttt beautiful bestieee...!!!🧿🧿😚😚💋 Apnn teenoo aisee hi har time dost rahee sathh mai bade hue baad trips pr jayege international vo bhii !!!😚 I hope teri sabb wishes puri hooo anddd tujhee kabhi bhi dukhi naa honaa padee !!!😚😚💋tuu sabsee acchii hai yrr kithnaa support kiyaa hai tunee i love you sooo much !!!😚😚💋 Abhii jaldi see miltee fhr see uske baad pata nai kab hoga milna sadly 🤧 buttt distance ki wajah se kabhi apni dosti pr asar nai padhna chaiye and padhta bhi nai hai!!!😚nowwwew oncee againnnnn haaapppiessstttttt birthdayyyyyyyyyyyyyyyyy taaaaaniiiii !!!!😚😚💋💋💋🥳🥳🥳🎉🎉🎉🎉🎉 Enjoy urr dayyy bbg !!!! 😚💋Hehehehe😚😚">
+              <span class="friend-label">Note 04</span>
+              <span class="friend-name">Akshara</span>
+              <p class="friend-tease">A birthday wish, saved for you.</p>
+              <span class="friend-open">Open Note</span>
+            </button>
+
+            <button class="friend-card reveal" type="button" style="--delay: 0.24s;" data-friend="Vishakaa" data-note="Happiest birthday taniii 🥹🫶🏻Lvu so much 💋❤️ thanks a lot for always being with me and making me laugh your really like my 2nd mother tanii No matter where life take us, our friendship will always mean a lot to me 💕 wishing you an amazing birthday and an even better year ahead. Happy Birthday, mumma🥺 your friend who always make me strong and disciplined Lvu tanii ❤️🐣😘 bss apni yari nahi tutni chahiye meri jaan ❤️💋">
+              <span class="friend-label">Note 05</span>
+              <span class="friend-name">Vishakaa</span>
+              <p class="friend-tease">One more note to keep.</p>
+              <span class="friend-open">Open Note</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="finale" id="finale">
+        <div class="finale-wrap">
+          <p class="eyebrow reveal">Closing Frame</p>
+          <h2 class="closing-line reveal" style="--delay: 0.08s;">May life keep meeting you with beauty worthy of your heart.</h2>
+          <p class="closing-note reveal" style="--delay: 0.16s;">
+            A little more light, a little more wonder, a little more of everything beautiful.
+          </p>
+          <button class="back-button reveal" type="button" data-replay style="--delay: 0.22s;">
+            Return To The Beginning
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <div class="note-modal" id="noteModal" aria-hidden="true">
+      <div class="note-dialog" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+        <button class="note-close" type="button" data-close-note aria-label="Close note">&times;</button>
+        <p class="eyebrow">From Your People</p>
+        <h3 class="note-title" id="noteTitle">Friend Name</h3>
+        <p class="note-text" id="noteText"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    window.addEventListener("load", () => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "auto"
+      });
+    });
+
+    const animatedItems = document.querySelectorAll(".reveal");
+    const replayButton = document.querySelector("[data-replay]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cursorLight = document.getElementById("cursorLight");
+    const cards = document.querySelectorAll(".friend-card");
+    const modal = document.getElementById("noteModal");
+    const noteTitle = document.getElementById("noteTitle");
+    const noteText = document.getElementById("noteText");
+    const closeNoteButton = document.querySelector("[data-close-note]");
+
+    if (reduceMotion) {
+      animatedItems.forEach((item) => item.classList.add("is-visible"));
+    } else {
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.2,
+          rootMargin: "0px 0px -6% 0px"
+        }
+      );
+
+      animatedItems.forEach((item) => revealObserver.observe(item));
+
+      if (replayButton) {
+        replayButton.addEventListener("click", () => {
+          animatedItems.forEach((item) => {
+            item.classList.remove("is-visible");
+            revealObserver.observe(item);
+          });
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+      }
+    }
+
+    if (reduceMotion && replayButton) {
+      replayButton.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "auto"
+        });
+      });
+    }
+
+    document.addEventListener("mousemove", (event) => {
+      cursorLight.style.left = event.clientX + "px";
+      cursorLight.style.top = event.clientY + "px";
+    });
+
+    const openNote = (card) => {
+      noteTitle.textContent = card.dataset.friend;
+      noteText.textContent = card.dataset.note;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      closeNoteButton.focus();
+    };
+
+    const closeNote = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => openNote(card));
+    });
+
+    closeNoteButton.addEventListener("click", closeNote);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeNote();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) {
+        closeNote();
+      }
+    });
+
+  </script>
+</body>
+</html>
